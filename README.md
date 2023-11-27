@@ -7,3 +7,6 @@ This is a small program that allows the user to check whether an FTP server is a
 
 ## Programming Language
 - C#
+
+## Status
+- Under development - currently not usable
