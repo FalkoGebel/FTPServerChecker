@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckerUI", "CheckerUI\CheckerUI.csproj", "{50AFEA9C-2175-4A24-B203-FC758AD967CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckerLibrary", "CheckerLibrary\CheckerLibrary.csproj", "{AB75BDD5-BFC3-4CBB-B5E6-6218053B90AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50AFEA9C-2175-4A24-B203-FC758AD967CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50AFEA9C-2175-4A24-B203-FC758AD967CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50AFEA9C-2175-4A24-B203-FC758AD967CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50AFEA9C-2175-4A24-B203-FC758AD967CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB75BDD5-BFC3-4CBB-B5E6-6218053B90AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB75BDD5-BFC3-4CBB-B5E6-6218053B90AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB75BDD5-BFC3-4CBB-B5E6-6218053B90AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB75BDD5-BFC3-4CBB-B5E6-6218053B90AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {35394CA8-A243-4EFC-B724-CAEF68889E02}
+	EndGlobalSection
+EndGlobal
