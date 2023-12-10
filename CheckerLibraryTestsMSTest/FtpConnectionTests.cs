@@ -1,129 +1,136 @@
-using CheckerLibrary;
+﻿using CheckerLibrary;
+using FluentAssertions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace CheckerLibraryTests
+namespace CheckerLibraryTestsMSTest
 {
-
+    [TestClass]
     public class FtpConnectionTests
     {
-        FtpConnection Sut;
-        
-        [SetUp]
-        public void Setup()
+        private FtpConnection Sut;
+
+        [TestInitialize]
+        public void Initialize()
         {
             Sut = new FtpConnection();
         }
-
-        [Test]
+        
+        [TestMethod]
         public void FtpConnection_is_not_null()
         {
-            Assert.That(Sut, Is.Not.Null);
+            Sut.Should().NotBeNull();
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_no_server_set_and_server_empty()
         {
-            Assert.That(Sut.ServerName, Is.EqualTo(""));
+            Sut.ServerName.Should().BeEmpty();
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_server_set_and_server_name_correct()
         {
             string serverName = @"ftp:\\server.name.de";
-            
+
             Sut.ServerName = serverName;
-            
-            Assert.That(Sut.ServerName, Is.EqualTo(serverName));
+
+            Sut.ServerName.Should().Be(serverName);
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_no_user_set_and_user_empty()
         {
-            Assert.That(Sut.UserId, Is.EqualTo(""));
+            Sut.UserId.Should().BeEmpty();
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_user_set_and_user_correct()
         {
             string userId = @"UserId";
 
             Sut.UserId = userId;
 
-            Assert.That(Sut.UserId, Is.EqualTo(userId));
+            Sut.UserId.Should().Be(userId);
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_no_password_set_and_password_empty()
         {
-            Assert.That(Sut.Password, Is.EqualTo(""));
+            Sut.Password.Should().BeEmpty();
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_password_set_and_password_correct()
         {
             string password = @"asldkjoe2904a";
 
             Sut.Password = password;
 
-            Assert.That(Sut.Password, Is.EqualTo(password));
+            Sut.Password.Should().Be(password);
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_no_ssl_flag_set_and_ssl_flag_false()
         {
-            Assert.That(Sut.UseSsl, Is.EqualTo(false));
+            Sut.UseSsl.Should().BeFalse();
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_ssl_flag_set_and_ssl_flag_true()
         {
             Sut.UseSsl = true;
 
-            Assert.That(Sut.UseSsl, Is.EqualTo(true));
+            Sut.UseSsl.Should().BeTrue();
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_ssl_flag_set_and_unset_and_ssl_flag_false()
         {
             Sut.UseSsl = true;
             Sut.UseSsl = false;
 
-            Assert.That(Sut.UseSsl, Is.EqualTo(false));
+            Sut.UseSsl.Should().BeFalse();
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_no_server_set_and_TestConnection_with_missing_server_error()
         {
-            var ex = Assert.Throws<MissingFieldException>(() => Sut.TestConnection());
-            StringAssert.Contains("server name", ex.Message.ToString().ToLower());
+            var callingTestWithoutServer = () => Sut.TestConnection();
+            callingTestWithoutServer.Should().Throw<MissingFieldException>()
+                .Which.Message.Contains("server name", StringComparison.CurrentCultureIgnoreCase);
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_no_user_set_and_TestConnection_with_missing_user_error()
         {
-            var ex = Assert.Throws<MissingFieldException>(() => Sut.TestConnection());
-            StringAssert.Contains("user id", ex.Message.ToString().ToLower());
+            var callingTestWithoutUser = () => Sut.TestConnection();
+            callingTestWithoutUser.Should().Throw<MissingFieldException>()
+                .Which.Message.Contains("user id", StringComparison.CurrentCultureIgnoreCase);
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_no_password_set_and_TestConnection_with_missing_password_error()
         {
-            var ex = Assert.Throws<MissingFieldException>(() => Sut.TestConnection());
-            StringAssert.Contains("password", ex.Message.ToString().ToLower());
+            var callingTestWithoutPassword = () => Sut.TestConnection();
+            callingTestWithoutPassword.Should().Throw<MissingFieldException>()
+                .Which.Message.Contains("password", StringComparison.CurrentCultureIgnoreCase);
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_all_fields_set_with_invalid_server_name_and_TestConnection_returning_invalid_server_name()
         {
             Sut.ServerName = "server";
             Sut.UserId = "user";
             Sut.Password = "password";
 
-            string statusInformation = Sut.TestConnection();
-
-            StringAssert.Contains("server name is not a valid uri", statusInformation.ToLower());
+            Sut.TestConnection().ToLower().Should().Contain("server name is not a valid uri");
         }
 
-        [Test]
+        [TestMethod]
         public void FtpConnection_all_fields_set_and_TestConnection_returning_status_information()
         {
             // get the credentials from a local file to keep the data private
@@ -133,10 +140,10 @@ namespace CheckerLibraryTests
             Sut.UserId = configFile.UserId;
             Sut.Password = configFile.Password;
 
-            string statusInformation = Sut.TestConnection();
+            string statusInformation = Sut.TestConnection().ToLower();
 
-            StringAssert.Contains("status code", statusInformation.ToLower());
-            StringAssert.Contains("description", statusInformation.ToLower());
+            statusInformation.Should().Contain("status code");
+            statusInformation.Should().Contain("description");
         }
     }
 }
