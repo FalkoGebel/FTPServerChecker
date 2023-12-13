@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckerUI", "CheckerUI\CheckerUI.csproj", "{50AFEA9C-2175-4A24-B203-FC758AD967CF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckerLibrary", "CheckerLibrary\CheckerLibrary.csproj", "{AB75BDD5-BFC3-4CBB-B5E6-6218053B90AD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{69524DDB-E094-446B-B97E-2959D866A151}"
@@ -12,7 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Pr
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckerLibraryTestsMSTest", "CheckerLibraryTestsMSTest\CheckerLibraryTestsMSTest.csproj", "{CC3FA663-FFB0-4D42-91D3-C71B686190C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckerLibraryTestsMSTest", "CheckerLibraryTestsMSTest\CheckerLibraryTestsMSTest.csproj", "{CC3FA663-FFB0-4D42-91D3-C71B686190C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckerUI", "CheckerUI\CheckerUI.csproj", "{0717ED1C-9DE7-4576-A6AC-E2D25CDC2D63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +20,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{50AFEA9C-2175-4A24-B203-FC758AD967CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50AFEA9C-2175-4A24-B203-FC758AD967CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50AFEA9C-2175-4A24-B203-FC758AD967CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50AFEA9C-2175-4A24-B203-FC758AD967CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AB75BDD5-BFC3-4CBB-B5E6-6218053B90AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AB75BDD5-BFC3-4CBB-B5E6-6218053B90AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB75BDD5-BFC3-4CBB-B5E6-6218053B90AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -32,6 +28,10 @@ Global
 		{CC3FA663-FFB0-4D42-91D3-C71B686190C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC3FA663-FFB0-4D42-91D3-C71B686190C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC3FA663-FFB0-4D42-91D3-C71B686190C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0717ED1C-9DE7-4576-A6AC-E2D25CDC2D63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0717ED1C-9DE7-4576-A6AC-E2D25CDC2D63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0717ED1C-9DE7-4576-A6AC-E2D25CDC2D63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0717ED1C-9DE7-4576-A6AC-E2D25CDC2D63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

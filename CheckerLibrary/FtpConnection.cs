@@ -38,22 +38,30 @@ namespace CheckerLibrary
         }
 
         /// <summary>
-        /// Tests the FTP connection with the set parameters.
+        /// Tests the FTP connection with the set parameters and "ListDirectory" as method.
         /// </summary>
         public string TestConnection()
         {
-            CheckConnectionFieldsWithException();
+            try
+            {
+                CheckConnectionFieldsWithException();
+            }
+            catch (MissingFieldException ex)
+            {
+                return ex.Message;
+            }
 
             try
             {
                 FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ServerName);
                 request.Credentials = new NetworkCredential(UserId, Password);
+                request.Method = WebRequestMethods.Ftp.ListDirectory;
                 request.EnableSsl = UseSsl;
                 request.KeepAlive = false;
 
                 FtpWebResponse response = (FtpWebResponse)request.GetResponse();
 
-                return $"Status code: {response.StatusCode}\nDescription: {response.StatusDescription}";
+                return $"Welcome message: {response.WelcomeMessage}\nStatus code: {response.StatusCode}\nDescription: {response.StatusDescription}";
             }
             catch (UriFormatException)
             {
@@ -64,11 +72,15 @@ namespace CheckerLibrary
                 if (ex.Response != null)
                 {
                     FtpWebResponse response = (FtpWebResponse)ex.Response;
-                    return $"Status code: {response.StatusCode}\nDescription: {response.StatusDescription}";
+                    return $"Message: {ex.Message}\nStatus code: {response.StatusCode}\nDescription: {response.StatusDescription}";
                 }
             }
+            catch (Exception ex)
+            {
+                return $"Exception: {ex.Message}";
+            }
 
-            throw new NotSupportedException("Internal error: function \"TestConnection\" came to an end");
+            return "Internal error: function \"TestConnection\" came to an end";
         }
     }
 }
