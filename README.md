@@ -11,4 +11,4 @@ This is a small program that allows the user to check whether an FTP server is a
 - C#
 
 ## Status
-- Under development - currently not usable
+- simple connection test functionality usable
