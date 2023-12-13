@@ -166,7 +166,7 @@
             MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "MainForm";
+            Text = "FTP Server Checker";
             ResumeLayout(false);
             PerformLayout();
         }

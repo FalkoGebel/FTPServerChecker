@@ -11,4 +11,5 @@ This is a small program that allows the user to check whether an FTP server is a
 - C#
 
 ## Status
-- simple connection test functionality usable
+simple connection test functionality usable
+![FTP Server Checker Main Form](/README-Images/MainForm.jpg?raw=true "FTP Server Checker")
