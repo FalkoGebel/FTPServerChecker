@@ -38,6 +38,7 @@
             PasswordTextBox = new TextBox();
             UseSslCheckBox = new CheckBox();
             OutputTextBox = new TextBox();
+            SaveDataCheckBox = new CheckBox();
             SuspendLayout();
             // 
             // ServerNameLabel
@@ -141,7 +142,21 @@
             OutputTextBox.Name = "OutputTextBox";
             OutputTextBox.Size = new Size(560, 184);
             OutputTextBox.TabIndex = 9;
+            OutputTextBox.TabStop = false;
             OutputTextBox.Text = "<output>";
+            // 
+            // SaveDataCheckBox
+            // 
+            SaveDataCheckBox.AutoSize = true;
+            SaveDataCheckBox.FlatStyle = FlatStyle.Popup;
+            SaveDataCheckBox.Location = new Point(12, 324);
+            SaveDataCheckBox.Name = "SaveDataCheckBox";
+            SaveDataCheckBox.Size = new Size(107, 23);
+            SaveDataCheckBox.TabIndex = 10;
+            SaveDataCheckBox.TabStop = false;
+            SaveDataCheckBox.Text = "Save Data";
+            SaveDataCheckBox.UseVisualStyleBackColor = true;
+            SaveDataCheckBox.CheckedChanged += SaveDataCheckBox_CheckedChanged;
             // 
             // MainForm
             // 
@@ -149,6 +164,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(21, 21, 21);
             ClientSize = new Size(584, 361);
+            Controls.Add(SaveDataCheckBox);
             Controls.Add(OutputTextBox);
             Controls.Add(UseSslCheckBox);
             Controls.Add(PasswordTextBox);
@@ -167,6 +183,8 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FTP Server Checker";
+            FormClosing += MainForm_FormClosing;
+            Load += MainForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -183,5 +201,6 @@
         private TextBox PasswordTextBox;
         private CheckBox UseSslCheckBox;
         private TextBox OutputTextBox;
+        private CheckBox SaveDataCheckBox;
     }
 }

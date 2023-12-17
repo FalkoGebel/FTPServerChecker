@@ -1,4 +1,5 @@
 ﻿using CheckerLibrary;
+using CheckerLibraryHelpers;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace CheckerLibraryTestsMSTest
     [TestClass]
     public class FtpConnectionTests
     {
-        private FtpConnection Sut;
+        private FtpConnection? Sut;
 
         [TestInitialize]
         public void Initialize()
@@ -99,25 +100,19 @@ namespace CheckerLibraryTestsMSTest
         [TestMethod]
         public void FtpConnection_no_server_set_and_TestConnection_with_missing_server_error()
         {
-            var callingTestWithoutServer = () => Sut.TestConnection();
-            callingTestWithoutServer.Should().Throw<MissingFieldException>()
-                .Which.Message.Contains("server name", StringComparison.CurrentCultureIgnoreCase);
+            Sut.TestConnection().ToLower().Should().Contain("no server name is set");
         }
 
         [TestMethod]
         public void FtpConnection_no_user_set_and_TestConnection_with_missing_user_error()
         {
-            var callingTestWithoutUser = () => Sut.TestConnection();
-            callingTestWithoutUser.Should().Throw<MissingFieldException>()
-                .Which.Message.Contains("user id", StringComparison.CurrentCultureIgnoreCase);
+            Sut.TestConnection().ToLower().Should().Contain("no user id is set");
         }
 
         [TestMethod]
         public void FtpConnection_no_password_set_and_TestConnection_with_missing_password_error()
         {
-            var callingTestWithoutPassword = () => Sut.TestConnection();
-            callingTestWithoutPassword.Should().Throw<MissingFieldException>()
-                .Which.Message.Contains("password", StringComparison.CurrentCultureIgnoreCase);
+            Sut.TestConnection().ToLower().Should().Contain("no password is set");
         }
 
         [TestMethod]
@@ -144,6 +139,113 @@ namespace CheckerLibraryTestsMSTest
 
             statusInformation.Should().Contain("status code");
             statusInformation.Should().Contain("description");
+        }
+
+        [TestMethod]
+        public void Create_String_From_FtpConnection_and_String_is_correct_first_version()
+        {
+            Sut.ServerName = "server";
+            Sut.UserId = "user";
+            Sut.Password = "password";
+
+            string expected = $"server||user||password||0";
+
+            Sut.CreateFileString().Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void Create_String_From_FtpConnection_and_String_is_correct_second_version()
+        {
+            Sut.ServerName = "server";
+            Sut.UserId = "user";
+            Sut.Password = "password";
+            Sut.UseSsl = true;
+
+            string expected = $"server||user||password||1";
+
+            Sut.CreateFileString().Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void Create_String_From_FtpConnection_and_String_is_correct_third_version()
+        {
+            Sut.ServerName = "ftp://ftp.bull.com";
+            Sut.UserId = "PeterPaulMaria";
+            Sut.Password = "abcd11223344";
+            Sut.UseSsl = true;
+
+            string expected = $"ftp://ftp.bull.com||PeterPaulMaria||abcd11223344||1";
+
+            Sut.CreateFileString().Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void Create_FtpConnection_From_String_and_empty_String_returns_null()
+        {
+            string fileString = $"";
+
+            fileString.CreateFtpConnectionFromFileString().Should().BeNull();
+        }
+
+        [TestMethod]
+        public void Create_FtpConnection_From_String_and_invalid_String_returns_null()
+        {
+            string fileString = $"invalidString";
+
+            fileString.CreateFtpConnectionFromFileString().Should().BeNull();
+        }
+
+        [TestMethod]
+        public void Create_FtpConnection_From_String_and_valid_String_returns_not_null_and_correct_values()
+        {
+            string fileString = $"ftp://ftp.bull.com||PeterPaulMaria||abcd11223344||1";
+
+            Sut = fileString.CreateFtpConnectionFromFileString();
+
+            Sut.Should().NotBeNull();
+            Sut.ServerName.Should().Be("ftp://ftp.bull.com");
+            Sut.UserId.Should().Be("PeterPaulMaria");
+            Sut.Password.Should().Be("abcd11223344");
+            Sut.UseSsl.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void Create_FtpConnection_From_String_and_only_three_fields_returns_null()
+        {
+            string fileString = $"PeterPaulMaria||abcd11223344||1";
+
+            fileString.CreateFtpConnectionFromFileString().Should().BeNull();
+        }
+
+        [TestMethod]
+        public void Create_File_From_File_String_and_file_exists()
+        {
+            string fileString = $"PeterPaulMaria||abcd11223344||1";
+            string fileName = "save.data";
+
+            fileString.SaveToSaveFile();
+
+            File.Exists(fileName).Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void Get_File_String_From_File_and_string_is_correct()
+        {
+            string fileString = $"PeterPaulMaria||abcd11223344||1";
+
+            fileString.SaveToSaveFile();
+
+            CheckerLibraryHelpers.CheckerLibraryHelpers.LoadFromSaveFile().Should().Be(fileString);
+        }
+
+        [TestMethod]
+        public void Delete_Save_File_and_file_does_not_exist()
+        {
+            string fileName = "save.data";
+
+            CheckerLibraryHelpers.CheckerLibraryHelpers.DeleteSaveFile();
+
+            File.Exists(fileName).Should().BeFalse();
         }
     }
 }
