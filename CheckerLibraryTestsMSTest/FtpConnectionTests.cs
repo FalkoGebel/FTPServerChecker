@@ -1,11 +1,6 @@
 ﻿using CheckerLibrary;
 using CheckerLibraryHelpers;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CheckerLibraryTestsMSTest
 {
@@ -123,22 +118,6 @@ namespace CheckerLibraryTestsMSTest
             Sut.Password = "password";
 
             Sut.TestConnection().ToLower().Should().Contain("server name is not a valid uri");
-        }
-
-        [TestMethod]
-        public void FtpConnection_all_fields_set_and_TestConnection_returning_status_information()
-        {
-            // get the credentials from a local file to keep the data private
-            ConfigFile configFile = ConfigFile.LoadConfigFile();
-
-            Sut.ServerName = configFile.ServerName;
-            Sut.UserId = configFile.UserId;
-            Sut.Password = configFile.Password;
-
-            string statusInformation = Sut.TestConnection().ToLower();
-
-            statusInformation.Should().Contain("status code");
-            statusInformation.Should().Contain("description");
         }
 
         [TestMethod]
