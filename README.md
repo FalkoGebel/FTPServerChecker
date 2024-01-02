@@ -13,5 +13,6 @@ This is a small program that allows the user to check whether an FTP server is a
 ## Status
 - simple connection test functionality usable
 - data in save file is encrypted with static credentials
+- German and English UI - depending on the system settings
 
 ![FTP Server Checker Main Form](/README-Images/MainForm.jpg?raw=true "FTP Server Checker")
