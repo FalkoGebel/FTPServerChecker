@@ -1,6 +1,7 @@
 ﻿using CheckerLibrary;
 using CheckerLibraryHelpers;
 using FluentAssertions;
+using System.Globalization;
 
 namespace CheckerLibraryTestsMSTest
 {
@@ -12,6 +13,7 @@ namespace CheckerLibraryTestsMSTest
         [TestInitialize]
         public void Initialize()
         {
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
             Sut = new FtpConnection();
         }
         
@@ -95,19 +97,43 @@ namespace CheckerLibraryTestsMSTest
         [TestMethod]
         public void FtpConnection_no_server_set_and_TestConnection_with_missing_server_error()
         {
-            Sut.TestConnection().ToLower().Should().Contain("no server name is set");
+            Sut.TestConnection().ToLower().Should().Contain("no server name specified");
+        }
+
+        [TestMethod]
+        public void FtpConnection_no_server_set_and_TestConnection_with_missing_server_error_in_german()
+        {
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
+
+            Sut.TestConnection().ToLower().Should().Contain("kein servername angegeben");
         }
 
         [TestMethod]
         public void FtpConnection_no_user_set_and_TestConnection_with_missing_user_error()
         {
-            Sut.TestConnection().ToLower().Should().Contain("no user id is set");
+            Sut.TestConnection().ToLower().Should().Contain("no user id specified");
+        }
+
+        [TestMethod]
+        public void FtpConnection_no_user_set_and_TestConnection_with_missing_user_error_in_german()
+        {
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
+
+            Sut.TestConnection().ToLower().Should().Contain("keine benutzer-id angegeben");
         }
 
         [TestMethod]
         public void FtpConnection_no_password_set_and_TestConnection_with_missing_password_error()
         {
-            Sut.TestConnection().ToLower().Should().Contain("no password is set");
+            Sut.TestConnection().ToLower().Should().Contain("no password specified");
+        }
+
+        [TestMethod]
+        public void FtpConnection_no_password_set_and_TestConnection_with_missing_password_error_in_german()
+        {
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
+
+            Sut.TestConnection().ToLower().Should().Contain("kein passwort angegeben");
         }
 
         [TestMethod]
@@ -118,6 +144,18 @@ namespace CheckerLibraryTestsMSTest
             Sut.Password = "password";
 
             Sut.TestConnection().ToLower().Should().Contain("server name is not a valid uri");
+        }
+
+        [TestMethod]
+        public void FtpConnection_all_fields_set_with_invalid_server_name_and_TestConnection_returning_invalid_server_name_in_german()
+        {
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
+
+            Sut.ServerName = "server";
+            Sut.UserId = "user";
+            Sut.Password = "password";
+
+            Sut.TestConnection().ToLower().Should().Contain("servername ist kein gültiger uri");
         }
 
         [TestMethod]
