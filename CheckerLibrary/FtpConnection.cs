@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 
 namespace CheckerLibrary
 {
@@ -23,15 +24,15 @@ namespace CheckerLibrary
         private void CheckConnectionFieldsWithException()
         {
             List<string> missingFieldMessages = new();
-
+            
             if (ServerName == "")
-                missingFieldMessages.Add("No server name is set");
+                missingFieldMessages.Add(Properties.Resources.NO_SERVER_NAME);
 
             if (UserId == "")
-                missingFieldMessages.Add("No user id is set");
+                missingFieldMessages.Add(Properties.Resources.NO_USER_ID);
 
             if (Password == "")
-                missingFieldMessages.Add("No password is set");
+                missingFieldMessages.Add(Properties.Resources.NO_PASSWORD);
 
             if (missingFieldMessages.Count > 0)
                 throw new MissingFieldException(string.Join("; ", missingFieldMessages));
@@ -61,26 +62,28 @@ namespace CheckerLibrary
 
                 FtpWebResponse response = (FtpWebResponse)request.GetResponse();
 
-                return $"Welcome message: {response.WelcomeMessage}\nStatus code: {response.StatusCode}\nDescription: {response.StatusDescription}";
+                return $"{Properties.Resources.WELCOME_MSG}: {response.WelcomeMessage}\n{Properties.Resources.STATUS_CODE}: {response.StatusCode}\n{Properties.Resources.DESCRIPTION}: {response.StatusDescription}";
             }
             catch (UriFormatException)
             {
-                return $"Server name is not a valid URI";
+                return Properties.Resources.INVALID_URI;
             }
             catch (WebException ex)
             {
+                string responseText = "";
+
                 if (ex.Response != null)
                 {
                     FtpWebResponse response = (FtpWebResponse)ex.Response;
-                    return $"Message: {ex.Message}\nStatus code: {response.StatusCode}\nDescription: {response.StatusDescription}";
+                    responseText = $"\n{Properties.Resources.STATUS_CODE}: {response.StatusCode}\n{Properties.Resources.DESCRIPTION}: {response.StatusDescription}";
                 }
+                    
+                return $"{Properties.Resources.MSG}: {ex.Message}" + responseText;
             }
             catch (Exception ex)
             {
-                return $"Exception: {ex.Message}";
+                return $"{Properties.Resources.EXCEPTION}: {ex.Message}";
             }
-
-            return "Internal error: function \"TestConnection\" came to an end";
         }
     }
 }
